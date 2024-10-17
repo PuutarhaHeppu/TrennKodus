@@ -40,14 +40,13 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Exercise"
+                                "$ref": "#/components/schemas/NewExercise"
                             },
                             "examples": {
                                 "NewExercise": {
-                                    "value": 
-                                    {
-                                        "name":"some text",  
-                                        "set": 56,    
+                                    "value": {
+                                        "name": "some text",
+                                        "set": 56,
                                         "repesition": 24
                                     }
                                 }
@@ -63,10 +62,10 @@
                     "201": {
                         "headers": {
                             "location": {
-                                "description": "Location of created object",
                                 "schema": {
                                     "type": "string"
-                                }
+                                },
+                                "description": "Location of created object"
                             }
                         },
                         "content": {
@@ -99,11 +98,10 @@
                                 },
                                 "examples": {
                                     "Full details of a given exercise": {
-                                        "value": 
-                                        {
-                                            "id": 1, 
-                                            "name": "push-up", 
-                                            "repetition": 10, 
+                                        "value": {
+                                            "id": 1,
+                                            "name": "push-up",
+                                            "repetition": 10,
                                             "set": 3
                                         }
                                     }
@@ -185,8 +183,33 @@
                 "example": {
                     "id": 67,
                     "name": "some text",
-                    "repetisions": 43,
+                    "repetitions": 43,
                     "Sets": 9
+                }
+            },
+            "NewExercise": {
+                "description": "Exercise to be saved",
+                "required": [
+                    "name",
+                    "repetitions",
+                    "sets"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "Must contain atleast one non-whitespace character",
+                        "type": "string"
+                    },
+                    "sets": {
+                        "format": "int32",
+                        "description": "",
+                        "type": "integer"
+                    },
+                    "repetitions": {
+                        "format": "int32",
+                        "description": "",
+                        "type": "integer"
+                    }
                 }
             }
         }

@@ -39,7 +39,7 @@ app.post('/exercises', (req, res) => {
     }
     exercises.push(newExercise)
     res.status(201)
-        .location(`http://$localhost:${port}/exercises/${newExercise.id}`)
+        .location(`${getBaseUrl(req)}/exercises/${newExercise.id}`)
         .send(newExercise)
 })
 
@@ -54,6 +54,10 @@ app.get('/exercises/:id', (req, res) => {
     }
     res.send(exercise)
 })
+
+function getBaseUrl (req) {
+    return (req.connection && req.connection.encrypted ? 'https' : 'http') + `://${req.headers.host}`
+}
  
 app.listen(port, () => {
     console.log(`API up at: http://localhost:${port}`)

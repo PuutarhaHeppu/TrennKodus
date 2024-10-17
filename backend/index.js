@@ -55,6 +55,19 @@ app.get('/exercises/:id', (req, res) => {
     res.send(exercise)
 })
 
+app.delete('/exercises/:id', (req, res) => {
+    const idNumber = parseInt(req.params.id)
+    if (isNaN(idNumber)) {
+        return res.status(400).send({error: `ID must be a whole number: ${req.params.id}`})
+    }
+    const exercise = exercises.find(e => e.id === idNumber)
+    if (!exercise) {
+        return res.status(404).send({error: `Exercise not found`})
+    }
+    exercises.splice(exercises.indexOf(exercise), 1)
+    res.status(204).send()
+})
+
 function getBaseUrl (req) {
     return (req.connection && req.connection.encrypted ? 'https' : 'http') + `://${req.headers.host}`
 }

@@ -81,7 +81,7 @@
                 "summary": "Add new exercise"
             }
         },
-        "/exercises/:id": {
+        "/exercises/{id}": {
             "get": {
                 "tags": [
                     "details"
@@ -131,7 +131,66 @@
                 "operationId": "id",
                 "summary": "Get full details of a exercise",
                 "description": "Returns full details of a given id exercise"
-            }
+            },
+            "delete": {
+                "tags": [
+                    "Exercises"
+                ],
+                "responses": {
+                    "204": {
+                        "content": {
+                            "application/json": {}
+                        },
+                        "description": "Exercise deleted"
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/error"
+                                },
+                                "examples": {
+                                    "IdError": {
+                                        "value": {
+                                            "error": "ID must be a whole number: esimene"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Incorrect Id"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/error"
+                                },
+                                "examples": {
+                                    "NotFound": {
+                                        "value": {
+                                            "error": "Exercise not found"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Exercise not found"
+                    }
+                },
+                "summary": "Remove a exercise"
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "description": "Id of exercise to be deleted",
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "in": "path",
+                    "required": true
+                }
+            ]
         }
     },
     "components": {

@@ -49,9 +49,19 @@ app.get('/exercises/:id', (req, res) => {
     return res.send(exercise)
 })
 
-// app.put("/exercises/:id", (req, res)) {
-
-// }
+app.put("/exercises/:id", (req, res)  => {
+    const exercise = getExercise(req,res)
+    if (!exercise) { return }
+    if (!req.body.name || req.body.name.trim().length === 0){
+        return res.status(400).send({error: "Missing required field 'name'"})
+    }
+    exercise.name = req.body.name
+    exercise.sets = req.body.sets
+    exercise.repetitions = req.body.repetitions
+    return res
+        .location(`${getBaseUrl(req)}/exercises/${exercise.id}`)
+        .send(exercise)
+})
 
 app.delete('/exercises/:id', (req, res) => {
     const exercise = getExercise(req,res)

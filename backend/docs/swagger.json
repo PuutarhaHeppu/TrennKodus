@@ -132,6 +132,34 @@
                 "summary": "Get full details of a exercise",
                 "description": "Returns full details of a given id exercise"
             },
+            "put": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewExercise"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "exercises"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exercise"
+                                }
+                            }
+                        },
+                        "description": "Success"
+                    }
+                },
+                "summary": "Modify existing exercise"
+            },
             "delete": {
                 "tags": [
                     "Exercises"
@@ -183,7 +211,7 @@
             "parameters": [
                 {
                     "name": "id",
-                    "description": "Id of exercise to be deleted",
+                    "description": "Id of the exercise to be modified",
                     "schema": {
                         "type": "integer"
                     },

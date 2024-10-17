@@ -61,6 +61,14 @@
                 ],
                 "responses": {
                     "201": {
+                        "headers": {
+                            "location": {
+                                "description": "Location of created object",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -91,7 +99,13 @@
                                 },
                                 "examples": {
                                     "Full details of a given exercise": {
-                                        "value": "{id: 1, name: \"push-up\", repetition: 10, set: 3}"
+                                        "value": 
+                                        {
+                                            "id": 1, 
+                                            "name": "push-up", 
+                                            "repetition": 10, 
+                                            "set": 3
+                                        }
                                     }
                                 }
                             }

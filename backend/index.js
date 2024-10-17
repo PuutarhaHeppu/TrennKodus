@@ -44,32 +44,38 @@ app.post('/exercises', (req, res) => {
 })
 
 app.get('/exercises/:id', (req, res) => {
-    const idNumber = parseInt(req.params.id)
-    if (isNaN(idNumber)) {
-        return res.status(400).send({error: `ID must be a whole number: ${req.params.id}`})
-    }
-    const exercise = exercises.find(e => e.id === idNumber)
-    if (!exercise) {
-        return res.status(404).send({error: `Exercise not found`})
-    }
-    res.send(exercise)
+    const exercise = getExercise(req,res)
+    if (!exercise) { return }
+    return res.send(exercise)
 })
 
+// app.put("/exercises/:id", (req, res)) {
+
+// }
+
 app.delete('/exercises/:id', (req, res) => {
-    const idNumber = parseInt(req.params.id)
-    if (isNaN(idNumber)) {
-        return res.status(400).send({error: `ID must be a whole number: ${req.params.id}`})
-    }
-    const exercise = exercises.find(e => e.id === idNumber)
-    if (!exercise) {
-        return res.status(404).send({error: `Exercise not found`})
-    }
+    const exercise = getExercise(req,res)
+    if (!exercise) { return }
     exercises.splice(exercises.indexOf(exercise), 1)
     res.status(204).send()
 })
 
 function getBaseUrl (req) {
     return (req.connection && req.connection.encrypted ? 'https' : 'http') + `://${req.headers.host}`
+}
+
+function getExercise(req, res) {
+    const idNumber = parseInt(req.params.id)
+    if (isNaN(idNumber)) {
+        res.status(400).send({error: `ID must be a whole number: ${req.params.id}`})
+        return null
+    }
+    const exercise = exercises.find(e => e.id === idNumber)
+    if (!exercise) {
+        res.status(404).send({error: `Exercise not found`})
+        return null
+    }
+    return exercise
 }
  
 app.listen(port, () => {

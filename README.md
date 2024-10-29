@@ -1,6 +1,7 @@
 # TrennKodus
-
-
+Meie treening API võimaldab treenida igal pool ja igal ajal. 
+API annab harjutuste kohta näidispildid ja määrab korduste arvu. 
+Läbi API saab kasutaja treeningkava just selle lihasgrupi jaoks millele on tal soovi.
 
 # How to run program
 to run the project you need to have node.js downloaded

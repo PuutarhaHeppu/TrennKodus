@@ -84,7 +84,7 @@
         "/exercises/{id}": {
             "get": {
                 "tags": [
-                    "details"
+                    "Exercises"
                 ],
                 "responses": {
                     "200": {
@@ -144,7 +144,7 @@
                     "required": true
                 },
                 "tags": [
-                    "exercises"
+                    "Exercises"
                 ],
                 "responses": {
                     "200": {
@@ -222,6 +222,9 @@
         },
         "/trainingProgram": {
             "get": {
+                "tags": [
+                    "Trainingprogram"
+                ],
                 "responses": {
                     "200": {
                         "content": {
@@ -245,6 +248,72 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewTrainingProgram"
+                            },
+                            "examples": {
+                                "NewTrainingProgram": {
+                                    "value": {
+                                        "day": "some text",
+                                        "Exercises": [
+                                            {
+                                                "id": 1,
+                                                "name": "some text",
+                                                "repetisions": 54,
+                                                "Sets": 93
+                                            },
+                                            {
+                                                "id": 2,
+                                                "name": "some text",
+                                                "repetisions": 54,
+                                                "Sets": 93
+                                            },
+                                            {
+                                                "id": 3,
+                                                "name": "some text",
+                                                "repetisions": 54,
+                                                "Sets": 93
+                                            },
+                                            {
+                                                "id": 4,
+                                                "name": "some text",
+                                                "repetisions": 54,
+                                                "Sets": 93
+                                            },
+                                            {
+                                                "id": 5,
+                                                "name": "some text",
+                                                "repetisions": 54,
+                                                "Sets": 93
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Trainingprogram"
+                ],
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainingProgram"
+                                }
+                            }
+                        },
+                        "description": "Success"
+                    }
+                },
+                "summary": "Add new training program"
             }
         }
     },
@@ -340,13 +409,53 @@
                     }
                 },
                 "example": {
-                    "Exercises": {
-                        "id": 96,
-                        "name": "some text",
-                        "repetisions": 54,
-                        "Sets": 93
+                    "day": "some text",
+                    "Exercises": [
+                        {
+                            "id": 1,
+                            "name": "some text",
+                            "repetisions": 54,
+                            "Sets": 93
+                        },
+                        {
+                            "id": 2,
+                            "name": "some text",
+                            "repetisions": 54,
+                            "Sets": 93
+                        },
+                        {
+                            "id": 3,
+                            "name": "some text",
+                            "repetisions": 54,
+                            "Sets": 93
+                        },
+                        {
+                            "id": 4,
+                            "name": "some text",
+                            "repetisions": 54,
+                            "Sets": 93
+                        },
+                        {
+                            "id": 5,
+                            "name": "some text",
+                            "repetisions": 54,
+                            "Sets": 93
+                        }
+                    ]
+                }
+            },
+            "NewTrainingProgram": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                    "day": {
+                        "description": "",
+                        "type": "string"
                     },
-                    "day": "some text"
+                    "exercises": {
+                        "$ref": "#/components/schemas/Exercise",
+                        "description": ""
+                    }
                 }
             }
         }

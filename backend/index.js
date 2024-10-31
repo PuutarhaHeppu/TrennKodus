@@ -17,11 +17,11 @@ const exercises = [
 ]
 
 const trainingProgram = [
-    {id: 1, name: "Chest day", exercises},
-    {id: 2, name: "Leg day", exercises},
-    {id: 3, name: "Core day", exercises},
-    {id: 4, name: "Back day", exercises},
-    {id: 5, name: "Arms day", exercises}
+    {id: 1, day: "Chest day", exercises},
+    {id: 2, day: "Leg day", exercises},
+    {id: 3, day: "Core day", exercises},
+    {id: 4, day: "Back day", exercises},
+    {id: 5, day: "Arms day", exercises}
 ]
 
 app.get("/exercises", (req, res) => {
@@ -31,8 +31,8 @@ app.get("/exercises", (req, res) => {
 })
 
 app.get("/trainingProgram", (req, res) => {
-    res.send(trainingProgram.map(({id,name,exercises}) => {
-        return {id, name, exercises}
+    res.send(trainingProgram.map(({id,day,exercises}) => {
+        return {id, day, exercises}
     }))
 })
 
@@ -55,6 +55,21 @@ app.post('/exercises', (req, res) => {
     res.status(201)
         .location(`${getBaseUrl(req)}/exercises/${newExercise.id}`)
         .send(newExercise)
+})
+
+app.post('/trainingProgram', (req, res) => {
+    if (!req.body.day || req.body.day.trim().length === 0){
+        return res.status(400).send({error: "Missing required field 'name'"})
+    }
+    const newtrainingProgram = {
+        id: createId(),
+        day: req.body.day,
+        exercises: req.body.exercises,
+    }
+    trainingProgram.push(newtrainingProgram)
+    res.status(201)
+        .location(`${getBaseUrl(req)}/trainingProgram/${newtrainingProgram.id}`)
+        .send(newtrainingProgram)
 })
 
 app.get('/exercises/:id', (req, res) => {

@@ -375,6 +375,54 @@
                 "summary": "Get full details of a training program",
                 "description": "Returns full details of a given id training program"
             },
+            "delete": {
+                "tags": [
+                    "Trainingprogram"
+                ],
+                "responses": {
+                    "204": {
+                        "content": {
+                            "application/json": {}
+                        },
+                        "description": "Training program deleted"
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/error"
+                                },
+                                "examples": {
+                                    "Id error": {
+                                        "value": {
+                                            "error": "Id must be a whole number: esimene"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Incorrect Id"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/error"
+                                },
+                                "examples": {
+                                    "Not found": {
+                                        "value": {
+                                            "error": "Training program not found"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Training program not found"
+                    }
+                },
+                "summary": "Remove a training program"
+            },
             "parameters": [
                 {
                     "name": "Id",

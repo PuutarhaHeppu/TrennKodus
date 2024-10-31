@@ -110,6 +110,13 @@ app.delete('/exercises/:id', (req, res) => {
     res.status(204).send()
 })
 
+app.delete('/trainingPrograms/:id', (req, res) => {
+    const trainingProgram = getTrainingProgram(req,res)
+    if (!trainingProgram) { return }
+    trainingPrograms.splice(trainingPrograms.indexOf(trainingProgram), 1)
+    res.status(204).send()
+})
+
 function getBaseUrl (req) {
     return (req.connection && req.connection.encrypted ? 'https' : 'http') + `://${req.headers.host}`
 }

@@ -21,10 +21,10 @@
                                 "examples": {
                                     "List of exercises": {
                                         "value": {
+                                            "id": 2,
                                             "name": "some text",
-                                            "set": 0,
-                                            "repesition": 60,
-                                            "id": 21
+                                            "description": "some text",
+                                            "MuscleGroup": "some text"
                                         }
                                     }
                                 }
@@ -46,8 +46,8 @@
                                 "NewExercise": {
                                     "value": {
                                         "name": "some text",
-                                        "set": 56,
-                                        "repesition": 24
+                                        "description": "some text",
+                                        "MuscleGroup": "some text"
                                     }
                                 }
                             }
@@ -101,8 +101,8 @@
                                         "value": {
                                             "id": 1,
                                             "name": "push-up",
-                                            "repetition": 10,
-                                            "set": 3
+                                            "description": "some text",
+                                            "MuscleGroup": "some text"
                                         }
                                     }
                                 }
@@ -230,18 +230,11 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/TrainingPrograms"
+                                    "$ref": "#/components/schemas/TrainingProgram"
                                 },
                                 "examples": {
                                     "List of training programs": {
-                                        "value": {
-                                            "Exercises": {
-                                                "id": 38,
-                                                "name": "some text",
-                                                "repetisions": 96,
-                                                "Sets": 76
-                                            }
-                                        }
+                                        "value": {}
                                     }
                                 }
                             }
@@ -261,7 +254,7 @@
                             "examples": {
                                 "NewTrainingProgram": {
                                     "value": {
-                                        "day": "some text",
+                                        "name": "some text",
                                         "Exercises": [
                                             {
                                                 "id": 1,
@@ -308,7 +301,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/TrainingPrograms"
+                                    "$ref": "#/components/schemas/TrainingProgram"
                                 }
                             }
                         },
@@ -346,7 +339,7 @@
                                 },
                                 "examples": {
                                     "Full details of a given training program": {
-                                        "value": "    {\n        \"id\": 1,\n        \"day\": \"Chest day\",\n        \"exercises\": [\n            {\n                \"id\": 1,\n                \"name\": \"push-up\",\n                \"repetitions\": 10,\n                \"sets\": 3\n            },\n            {\n                \"id\": 2,\n                \"name\": \"Diamond push-up\",\n                \"repetitions\": 10,\n                \"sets\": 3\n            },\n            {\n                \"id\": 3,\n                \"name\": \"squat\",\n                \"repetitions\": 10,\n                \"sets\": 3\n            },\n            {\n                \"id\": 4,\n                \"name\": \"pistol squat\",\n                \"repetitions\": 10,\n                \"sets\": 3\n            },\n            {\n                \"id\": 5,\n                \"name\": \"lat pull down\",\n                \"repetitions\": 10,\n                \"sets\": 3\n            }\n        ]\n    }"
+                                        "value": "    {\n        \"id\": 1,\n        \"name\": \"Chest day\",\n        \"description\": \"some text\"\n    }"
                                     }
                                 }
                             }
@@ -374,6 +367,33 @@
                 "operationId": "Id",
                 "summary": "Get full details of a training program",
                 "description": "Returns full details of a given id training program"
+            },
+            "put": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewTrainingProgram"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Trainingprogram"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainingProgram"
+                                }
+                            }
+                        },
+                        "description": "Success"
+                    }
+                },
+                "summary": "Modify existing training program"
             },
             "delete": {
                 "tags": [
@@ -457,8 +477,8 @@
                 "required": [
                     "id",
                     "name",
-                    "repetisions",
-                    "Sets"
+                    "MuscleGroup",
+                    "description"
                 ],
                 "type": "object",
                 "properties": {
@@ -471,30 +491,28 @@
                         "description": "",
                         "type": "string"
                     },
-                    "repetisions": {
-                        "format": "int32",
+                    "description": {
                         "description": "",
-                        "type": "integer"
+                        "type": "string"
                     },
-                    "Sets": {
-                        "format": "int32",
+                    "MuscleGroup": {
                         "description": "",
-                        "type": "integer"
+                        "type": "string"
                     }
                 },
                 "example": {
-                    "id": 67,
+                    "id": 9,
                     "name": "some text",
-                    "repetitions": 43,
-                    "Sets": 9
+                    "description": "some text",
+                    "MuscleGroup": "some text"
                 }
             },
             "NewExercise": {
                 "description": "Exercise to be saved",
                 "required": [
                     "name",
-                    "repetitions",
-                    "sets"
+                    "description",
+                    "MuscleGroup"
                 ],
                 "type": "object",
                 "properties": {
@@ -502,30 +520,25 @@
                         "description": "Must contain atleast one non-whitespace character",
                         "type": "string"
                     },
-                    "sets": {
-                        "format": "int32",
+                    "description": {
                         "description": "",
-                        "type": "integer"
+                        "type": "string"
                     },
-                    "repetitions": {
-                        "format": "int32",
+                    "MuscleGroup": {
                         "description": "",
-                        "type": "integer"
+                        "type": "string"
                     }
                 }
             },
             "TrainingProgram": {
                 "description": "",
                 "required": [
-                    "Id"
+                    "Id",
+                    "name"
                 ],
                 "type": "object",
                 "properties": {
-                    "Exercises": {
-                        "$ref": "#/components/schemas/Exercise",
-                        "description": ""
-                    },
-                    "day": {
+                    "name": {
                         "description": "",
                         "type": "string"
                     },
@@ -535,53 +548,21 @@
                     }
                 },
                 "example": {
-                    "Id": 1,
-                    "day": "some text",
-                    "Exercises": [
-                        {
-                            "id": 1,
-                            "name": "some text",
-                            "repetisions": 54,
-                            "Sets": 93
-                        },
-                        {
-                            "id": 2,
-                            "name": "some text",
-                            "repetisions": 54,
-                            "Sets": 93
-                        },
-                        {
-                            "id": 3,
-                            "name": "some text",
-                            "repetisions": 54,
-                            "Sets": 93
-                        },
-                        {
-                            "id": 4,
-                            "name": "some text",
-                            "repetisions": 54,
-                            "Sets": 93
-                        },
-                        {
-                            "id": 5,
-                            "name": "some text",
-                            "repetisions": 54,
-                            "Sets": 93
-                        }
-                    ]
+                    "name": "some text",
+                    "Id": 33
                 }
             },
             "NewTrainingProgram": {
                 "description": "",
                 "type": "object",
                 "properties": {
-                    "day": {
+                    "name": {
                         "description": "",
                         "type": "string"
                     },
-                    "exercises": {
-                        "$ref": "#/components/schemas/Exercise",
-                        "description": ""
+                    "description": {
+                        "description": "",
+                        "type": "string"
                     }
                 }
             }

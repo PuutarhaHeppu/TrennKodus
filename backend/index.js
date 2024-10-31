@@ -9,30 +9,30 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use(express.json())
 
 const exercises = [
-    {id: 1, name: "push-up", repetitions: 10, sets: 3},
-    {id: 2, name: "Diamond push-up", repetitions: 10, sets: 3},
-    {id: 3, name: "squat", repetitions: 10, sets: 3},
-    {id: 4, name: "pistol squat", repetitions: 10, sets: 3},
-    {id: 5, name: "lat pull down", repetitions: 10, sets: 3}
+    {id: 1, name: "Push-up", description: "An exercise in wich a person keeping a prone position with the hands palms down under the shoulders the balls of the feet on the ground, and the back straight pushes the body up and lets it down by an alternate straightening and bending of the arms.", MuscleGroup: "Chest"},
+    {id: 2, name: "Diamond push-up", description: "An exercise in wich a person keeping a prone position with the hands palms down under the chest in a diamond position the balls of the feet on the ground, and the back straight pushes the body up and lets it down by an alternate straightening and bending of the arms.", MuscleGroup: "Chest and triceps"},
+    {id: 3, name: "Squat", description:"To sit in a low crouching position with the legs drawn up closely beneath or in front of the body.", MuscleGroup:"Quads"},
+    {id: 4, name: "Pistol squat", description:"Perform pistol squats by lowering your body on one leg with your arms extended in front of you to counterbalance your bodyweight.", MuscleGroup:"Quads and hamstrings"},
+    {id: 5, name: "Lat pull down", description:"Pull a long rubberband attached to something strong, towards your chest, and then slowly extend your arms back to starting position.", MuscleGroup:"Lats"}
 ]
 
 const trainingPrograms = [
-    {id: 1, day: "Chest day", exercises},
-    {id: 2, day: "Leg day", exercises},
-    {id: 3, day: "Core day", exercises},
-    {id: 4, day: "Back day", exercises},
-    {id: 5, day: "Arms day", exercises}
+    {id: 1, name: "Chest day", description: "It's not only about pushing heavy weight but mastering the art of manageable weight control. It's vital to maintain correct form and ensure each rep counts for the majority of chest trainers. Chest exercises are more effective when executed with precision."},
+    {id: 2, name: "Leg day", description: "It's a day when you focus all your attention while you're at home on developing your lower body."},
+    {id: 3, name: "Core day", description: "Any exercise that involves the use of your stomach muscles and back muscles in a coordinated way."},
+    {id: 4, name: "Back day", description: "Back Days work your lats, traps, rotator cuff, biceps, forearms, and spinal erectors."},
+    {id: 5, name: "Arms day", description: "A complete arm workout for men should include a warmup and exercises that target all of the arm muscles, including the triceps, biceps, forearms, and shoulders."}
 ]
 
 app.get("/exercises", (req, res) => {
-    res.send(exercises.map(({id,name}) => {
-        return {id, name}
+    res.send(exercises.map(({id,name,description,MuscleGroup}) => {
+        return {id, name, description, MuscleGroup}
     }))
 })
 
 app.get("/trainingPrograms", (req, res) => {
-    res.send(trainingPrograms.map(({id,day,exercises}) => {
-        return {id, day, exercises}
+    res.send(trainingPrograms.map(({id,name,description}) => {
+        return {id, name, description}
     }))
 })
 
@@ -53,8 +53,8 @@ app.post('/exercises', (req, res) => {
     const newExercise = {
         id: createId(),
         name: req.body.name,
-        sets: req.body.sets,
-        repetitions: req.body.repetitions
+        description: req.body.description,
+        MuscleGroup: req.body.MuscleGroup
     }
     exercises.push(newExercise)
     res.status(201)
@@ -63,13 +63,13 @@ app.post('/exercises', (req, res) => {
 })
 
 app.post('/trainingPrograms', (req, res) => {
-    if (!req.body.day || req.body.day.trim().length === 0){
+    if (!req.body.name || req.body.name.trim().length === 0){
         return res.status(400).send({error: "Missing required field 'name'"})
     }
     const newtrainingProgram = {
         id: createTrainingProgramId(),
-        day: req.body.day,
-        exercises: exercises
+        name: req.body.name,
+        description: req.body.description
     }
     trainingPrograms.push(newtrainingProgram)
     res.status(201)
@@ -96,11 +96,24 @@ app.put("/exercises/:id", (req, res)  => {
         return res.status(400).send({error: "Missing required field 'name'"})
     }
     exercise.name = req.body.name
-    exercise.sets = req.body.sets
-    exercise.repetitions = req.body.repetitions
+    exercise.description = req.body.description,
+    exercise.MuscleGroup = req.body.MuscleGroup
     return res
         .location(`${getBaseUrl(req)}/exercises/${exercise.id}`)
         .send(exercise)
+})
+
+app.put("/trainingPrograms/:id", (req, res)  => {
+    const trainingProgram = getTrainingProgram(req,res)
+    if (!trainingProgram) { return }
+    if (!req.body.name || req.body.name.trim().length === 0){
+        return res.status(400).send({error: "Missing required field 'name'"})
+    }
+    trainingProgram.name = req.body.name
+    trainingProgram.description = req.body.description
+    return res
+        .location(`${getBaseUrl(req)}/trainingPrograms/${trainingProgram.id}`)
+        .send(trainingProgram)
 })
 
 app.delete('/exercises/:id', (req, res) => {

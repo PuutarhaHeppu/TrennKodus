@@ -220,7 +220,7 @@
                 }
             ]
         },
-        "/trainingProgram": {
+        "/trainingPrograms": {
             "get": {
                 "tags": [
                     "Trainingprogram"
@@ -230,7 +230,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/TrainingProgram"
+                                    "$ref": "#/components/schemas/TrainingPrograms"
                                 },
                                 "examples": {
                                     "List of training programs": {
@@ -245,9 +245,11 @@
                                     }
                                 }
                             }
-                        }
+                        },
+                        "description": "Success"
                     }
-                }
+                },
+                "summary": "Get a list of Training Programs"
             },
             "post": {
                 "requestBody": {
@@ -306,7 +308,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/TrainingProgram"
+                                    "$ref": "#/components/schemas/TrainingPrograms"
                                 }
                             }
                         },
@@ -315,6 +317,75 @@
                 },
                 "summary": "Add new training program"
             }
+        },
+        "/trainingPrograms/{Id}": {
+            "get": {
+                "tags": [
+                    "Trainingprogram"
+                ],
+                "parameters": [
+                    {
+                        "name": "Id",
+                        "description": "Id of the training program to be modified",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "examples": {
+                                    "Full details of a given training program": {
+                                        "value": "    {\n        \"id\": 1,\n        \"day\": \"Chest day\",\n        \"exercises\": [\n            {\n                \"id\": 1,\n                \"name\": \"push-up\",\n                \"repetitions\": 10,\n                \"sets\": 3\n            },\n            {\n                \"id\": 2,\n                \"name\": \"Diamond push-up\",\n                \"repetitions\": 10,\n                \"sets\": 3\n            },\n            {\n                \"id\": 3,\n                \"name\": \"squat\",\n                \"repetitions\": 10,\n                \"sets\": 3\n            },\n            {\n                \"id\": 4,\n                \"name\": \"pistol squat\",\n                \"repetitions\": 10,\n                \"sets\": 3\n            },\n            {\n                \"id\": 5,\n                \"name\": \"lat pull down\",\n                \"repetitions\": 10,\n                \"sets\": 3\n            }\n        ]\n    }"
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Returns full details of a given id training program"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/error"
+                                },
+                                "examples": {
+                                    "Training program was not found": {
+                                        "value": {
+                                            "error": "Training program was not found in training program array"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Training program was not found in training programs array"
+                    }
+                },
+                "operationId": "Id",
+                "summary": "Get full details of a training program",
+                "description": "Returns full details of a given id training program"
+            },
+            "parameters": [
+                {
+                    "name": "Id",
+                    "description": "Id of the training program to be modified",
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "in": "path",
+                    "required": true
+                }
+            ]
         }
     },
     "components": {
@@ -397,6 +468,9 @@
             },
             "TrainingProgram": {
                 "description": "",
+                "required": [
+                    "Id"
+                ],
                 "type": "object",
                 "properties": {
                     "Exercises": {
@@ -406,9 +480,14 @@
                     "day": {
                         "description": "",
                         "type": "string"
+                    },
+                    "Id": {
+                        "description": "",
+                        "type": "integer"
                     }
                 },
                 "example": {
+                    "Id": 1,
                     "day": "some text",
                     "Exercises": [
                         {

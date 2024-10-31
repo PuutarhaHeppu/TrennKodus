@@ -16,7 +16,7 @@ const exercises = [
     {id: 5, name: "lat pull down", repetitions: 10, sets: 3}
 ]
 
-const trainingProgram = [
+const trainingPrograms = [
     {id: 1, day: "Chest day", exercises},
     {id: 2, day: "Leg day", exercises},
     {id: 3, day: "Core day", exercises},
@@ -30,8 +30,8 @@ app.get("/exercises", (req, res) => {
     }))
 })
 
-app.get("/trainingProgram", (req, res) => {
-    res.send(trainingProgram.map(({id,day,exercises}) => {
+app.get("/trainingPrograms", (req, res) => {
+    res.send(trainingPrograms.map(({id,day,exercises}) => {
         return {id, day, exercises}
     }))
 })
@@ -39,6 +39,11 @@ app.get("/trainingProgram", (req, res) => {
 function createId() {
     const maxIdExercise = exercises.reduce((prev, current) => (prev.id > current.id) ? prev : current, 1)
     return maxIdExercise.id + 1;
+}
+
+function createTrainingProgramId() {
+    const maxIdTrainingProgram = trainingPrograms.reduce((prev, current) => (prev.id > current.id) ? prev : current, 1)
+    return maxIdTrainingProgram.id + 1;
 }
 
 app.post('/exercises', (req, res) => {
@@ -57,18 +62,18 @@ app.post('/exercises', (req, res) => {
         .send(newExercise)
 })
 
-app.post('/trainingProgram', (req, res) => {
+app.post('/trainingPrograms', (req, res) => {
     if (!req.body.day || req.body.day.trim().length === 0){
         return res.status(400).send({error: "Missing required field 'name'"})
     }
     const newtrainingProgram = {
-        id: createId(),
+        id: createTrainingProgramId(),
         day: req.body.day,
-        exercises: req.body.exercises,
+        exercises: exercises
     }
-    trainingProgram.push(newtrainingProgram)
+    trainingPrograms.push(newtrainingProgram)
     res.status(201)
-        .location(`${getBaseUrl(req)}/trainingProgram/${newtrainingProgram.id}`)
+        .location(`${getBaseUrl(req)}/trainingPrograms/${newtrainingProgram.id}`)
         .send(newtrainingProgram)
 })
 
@@ -76,6 +81,12 @@ app.get('/exercises/:id', (req, res) => {
     const exercise = getExercise(req,res)
     if (!exercise) { return }
     return res.send(exercise)
+})
+
+app.get('/trainingPrograms/:id', (req, res) => {
+    const trainingProgram = getTrainingProgram(req,res)
+    if (!trainingProgram) { return }
+    return res.send(trainingProgram)
 })
 
 app.put("/exercises/:id", (req, res)  => {
@@ -117,6 +128,20 @@ function getExercise(req, res) {
     return exercise
 }
  
+function getTrainingProgram(req, res) {
+    const idNumber = parseInt(req.params.id)
+    if (isNaN(idNumber)) {
+        res.status(400).send({error: `ID must be a whole number: ${req.params.id}`})
+        return null
+    }
+    const trainingProgram = trainingPrograms.find(e => e.id === idNumber)
+    if (!trainingProgram) {
+        res.status(404).send({error: `Training program not found`})
+        return null
+    }
+    return trainingProgram
+}
+
 app.listen(port, () => {
     console.log(`API up at: http://localhost:${port}`)
 })

@@ -219,6 +219,33 @@
                     "required": true
                 }
             ]
+        },
+        "/trainingProgram": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainingProgram"
+                                },
+                                "examples": {
+                                    "List of training programs": {
+                                        "value": {
+                                            "Exercises": {
+                                                "id": 38,
+                                                "name": "some text",
+                                                "repetisions": 96,
+                                                "Sets": 76
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -297,6 +324,29 @@
                         "description": "",
                         "type": "integer"
                     }
+                }
+            },
+            "TrainingProgram": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                    "Exercises": {
+                        "$ref": "#/components/schemas/Exercise",
+                        "description": ""
+                    },
+                    "day": {
+                        "description": "",
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "Exercises": {
+                        "id": 96,
+                        "name": "some text",
+                        "repetisions": 54,
+                        "Sets": 93
+                    },
+                    "day": "some text"
                 }
             }
         }

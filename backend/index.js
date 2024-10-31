@@ -16,9 +16,23 @@ const exercises = [
     {id: 5, name: "lat pull down", repetitions: 10, sets: 3}
 ]
 
+const trainingProgram = [
+    {id: 1, name: "Chest day", exercises},
+    {id: 2, name: "Leg day", exercises},
+    {id: 3, name: "Core day", exercises},
+    {id: 4, name: "Back day", exercises},
+    {id: 5, name: "Arms day", exercises}
+]
+
 app.get("/exercises", (req, res) => {
     res.send(exercises.map(({id,name}) => {
         return {id, name}
+    }))
+})
+
+app.get("/trainingProgram", (req, res) => {
+    res.send(trainingProgram.map(({id,name,exercises}) => {
+        return {id, name, exercises}
     }))
 })
 

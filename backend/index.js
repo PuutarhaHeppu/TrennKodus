@@ -1,6 +1,7 @@
+require('dotenv').config();
 const express = require('express')
 const app = express()
-const port = 8080
+const port = process.env.PORT || 3002;
 const swaggerUi = require("swagger-ui-express")
 const swaggerDocument = require('./docs/swagger.json');
 
@@ -8,12 +9,16 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 app.use(express.json())
 
+app.get("/", (req, res) => {
+    res.send(`Server running. Docs at <a href="http://localhost:${port}/docs>/docs</a>`)
+})
+
 const exercises = [
-    {id: 1, name: "Push-up", description: "An exercise in wich a person keeping a prone position with the hands palms down under the shoulders the balls of the feet on the ground, and the back straight pushes the body up and lets it down by an alternate straightening and bending of the arms.", MuscleGroup: "Chest"},
-    {id: 2, name: "Diamond push-up", description: "An exercise in wich a person keeping a prone position with the hands palms down under the chest in a diamond position the balls of the feet on the ground, and the back straight pushes the body up and lets it down by an alternate straightening and bending of the arms.", MuscleGroup: "Chest and triceps"},
-    {id: 3, name: "Squat", description:"To sit in a low crouching position with the legs drawn up closely beneath or in front of the body.", MuscleGroup:"Quads"},
-    {id: 4, name: "Pistol squat", description:"Perform pistol squats by lowering your body on one leg with your arms extended in front of you to counterbalance your bodyweight.", MuscleGroup:"Quads and hamstrings"},
-    {id: 5, name: "Lat pull down", description:"Pull a long rubberband attached to something strong, towards your chest, and then slowly extend your arms back to starting position.", MuscleGroup:"Lats"}
+    {id: 1, name: "Push-up", description: "An exercise in wich a person keeping a prone position with the hands palms down under the shoulders the balls of the feet on the ground, and the back straight pushes the body up and lets it down by an alternate straightening and bending of the arms.", muscleGroup: "Chest"},
+    {id: 2, name: "Diamond push-up", description: "An exercise in wich a person keeping a prone position with the hands palms down under the chest in a diamond position the balls of the feet on the ground, and the back straight pushes the body up and lets it down by an alternate straightening and bending of the arms.", muscleGroup: "Chest and triceps"},
+    {id: 3, name: "Squat", description:"To sit in a low crouching position with the legs drawn up closely beneath or in front of the body.", muscleGroup:"Quads"},
+    {id: 4, name: "Pistol squat", description:"Perform pistol squats by lowering your body on one leg with your arms extended in front of you to counterbalance your bodyweight.", muscleGroup:"Quads and hamstrings"},
+    {id: 5, name: "Lat pull down", description:"Pull a long rubberband attached to something strong, towards your chest, and then slowly extend your arms back to starting position.", muscleGroup:"Lats"}
 ]
 
 const trainingPrograms = [
@@ -25,8 +30,8 @@ const trainingPrograms = [
 ]
 
 app.get("/exercises", (req, res) => {
-    res.send(exercises.map(({id,name,description,MuscleGroup}) => {
-        return {id, name, description, MuscleGroup}
+    res.send(exercises.map(({id,name,description,muscleGroup}) => {
+        return {id, name, description, muscleGroup}
     }))
 })
 
@@ -54,7 +59,7 @@ app.post('/exercises', (req, res) => {
         id: createId(),
         name: req.body.name,
         description: req.body.description,
-        MuscleGroup: req.body.MuscleGroup
+        muscleGroup: req.body.muscleGroup
     }
     exercises.push(newExercise)
     res.status(201)
@@ -97,7 +102,7 @@ app.put("/exercises/:id", (req, res)  => {
     }
     exercise.name = req.body.name
     exercise.description = req.body.description,
-    exercise.MuscleGroup = req.body.MuscleGroup
+    exercise.muscleGroup = req.body.muscleGroup
     return res
         .location(`${getBaseUrl(req)}/exercises/${exercise.id}`)
         .send(exercise)
@@ -162,6 +167,7 @@ function getTrainingProgram(req, res) {
     return trainingProgram
 }
 
-app.listen(port, () => {
+app.listen(port, async () => {
+    require("./db")
     console.log(`API up at: http://localhost:${port}`)
 })

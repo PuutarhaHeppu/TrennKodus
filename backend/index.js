@@ -1,6 +1,7 @@
+require('dotenv').config();
 const express = require('express')
 const app = express()
-const port = 8080
+const port = process.env.PORT || 2000
 const swaggerUi = require("swagger-ui-express")
 const ih = require("integralhelm")
 const Sitemapper = require('sitemapper');
@@ -177,6 +178,7 @@ app.get("/", (req, res) => {
     res.send(`Server running. Docs at <a href="http://localhost:${port}/docs">/docs</a>`)
 })
 
-app.listen(port, () => {
+app.listen(port, async () => {
+    require("./db")
     console.log(`API up at: http://localhost:${port}`)
 })

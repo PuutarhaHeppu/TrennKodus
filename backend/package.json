@@ -9,8 +9,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/helmet": "^12.0.1",
     "express": "^4.21.1",
+    "integralhelm": "^1.2.3",
+    "sitemapper": "^3.2.18",
     "swagger-ui-express": "^5.0.1",
+    "wildcard": "^2.0.1",
     "yamljs": "^0.3.0"
   },
   "directories": {

@@ -2,7 +2,18 @@ const express = require('express')
 const app = express()
 const port = 8080
 const swaggerUi = require("swagger-ui-express")
+const ih = require("integralhelm")
+const Sitemapper = require('sitemapper');
+const sitemap = new Sitemapper();
 const swaggerDocument = require('./docs/swagger.json');
+app.use(
+    ih({
+        helmet: {
+            csp: { "style-src": ["'self'"], "font-src": ["'self'"] }
+        },
+        pp: { autoplay: ["self"] }
+    }),
+);
 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
@@ -161,6 +172,10 @@ function getTrainingProgram(req, res) {
     }
     return trainingProgram
 }
+
+app.get("/", (req, res) => {
+    res.send(`Server running. Docs at <a href="http://localhost:${port}/docs">/docs</a>`)
+})
 
 app.listen(port, () => {
     console.log(`API up at: http://localhost:${port}`)

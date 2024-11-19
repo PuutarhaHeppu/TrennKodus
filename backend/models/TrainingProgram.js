@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-    const Exercise = sequelize.define(
-        'Exercise',
+    const TrainingProgram = sequelize.define(
+        'TrainingProgram',
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -16,10 +16,6 @@ module.exports = (sequelize, DataTypes) => {
               type: DataTypes.STRING,
               allowNull: false
             },
-            muscleGroup: {
-              type: DataTypes.STRING,
-              allowNull: false
-            },
         },
         {
           // Other model options go here
@@ -27,6 +23,6 @@ module.exports = (sequelize, DataTypes) => {
     )
 
     // `sequelize.define` also returns the model
-    console.log(Exercise === sequelize.models.Exercise); // true
-    return Exercise;
+    console.log(TrainingProgram === sequelize.models.TrainingProgram); // true
+    return TrainingProgram;
 }

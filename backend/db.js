@@ -16,15 +16,15 @@ try {
   }
 })();
 
-const db = {}
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
-db.exercises = require("./models/Exercise")(sequelize, DataTypes);
-db.trainingPrograms = require("./models/TrainingProgram")(sequelize, DataTypes);
+// const db = {}
+// db.Sequelize = Sequelize;
+// db.sequelize = sequelize;
+// db.exercises = require("./models/Exercise")(sequelize, DataTypes);
+// db.trainingPrograms = require("./models/TrainingProgram")(sequelize, DataTypes);
 
-const sync = (async () => {
-  await sequelize.sync({ alter: true });
-  console.log('All models were synchronized successfully.');
-})
+// const sync = (async () => {
+//   await sequelize.sync({ alter: true });
+//   console.log('All models were synchronized successfully.');
+// })
 
-module.exports = {db, sync};
+// module.exports = {db, sync};

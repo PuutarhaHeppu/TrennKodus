@@ -1,16 +1,18 @@
 {
   "dependencies": {
+    "concurrently": "^9.1.0",
     "express": "^4.21.0",
     "swagger": "^0.7.5",
     "swagger-ui-express": "^5.0.1"
   },
   "name": "trennkodus",
   "version": "1.0.0",
-  "description": "",
+  "description": "Meie treening API võimaldab treenida igal pool ja igal ajal. \r API annab harjutuste kohta korduste arvu ja kava. \r Läbi API saab kasutaja treeningkava just selle lihasgrupi jaoks millele on tal soovi.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"backend\\npm run dev\" \"frontend\\npm run dev\""
+    "dev": "",
+    "start": "concurrently \"cd backend && node .\" \"cd frontend && npm run dev\""
   },
   "keywords": [],
   "author": "",

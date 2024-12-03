@@ -1,14 +1,15 @@
 require('dotenv').config();
 const express = require('express')
 const app = express()
+const cors = require('cors')
 const port = process.env.PORT || 8081;
 const swaggerUi = require("swagger-ui-express")
 const swaggerDocument = require('./docs/swagger.json');
 const { db, sync } = require("./db");
 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
-
 app.use(express.json())
+app.use(cors());
 
 const trainingPrograms = [
     { id: 1, name: "Chest day", description: "It's not only about pushing heavy weight but mastering the art of manageable weight control. It's vital to maintain correct form and ensure each rep counts for the majority of chest trainers. Chest exercises are more effective when executed with precision." },
@@ -31,11 +32,6 @@ app.get("/trainingPrograms", (req, res) => {
     }))
 })
 
-function createId() {
-    const maxIdExercise = exercises.reduce((prev, current) => (prev.id > current.id) ? prev : current, 1)
-    return maxIdExercise.id + 1;
-}
-
 function createTrainingProgramId() {
     const maxIdTrainingProgram = trainingPrograms.reduce((prev, current) => (prev.id > current.id) ? prev : current, 1)
     return maxIdTrainingProgram.id + 1;
@@ -46,7 +42,6 @@ app.post('/exercises', async (req, res) => {
         return res.status(400).send({ error: "Missing required field 'name'" })
     }
     const newExercise = {
-        id: createId(),
         name: req.body.name,
         description: req.body.description,
         muscleGroup: req.body.muscleGroup

@@ -23,7 +23,7 @@ db.exercises = require("./models/Exercise")(sequelize, DataTypes);
 db.trainingProgram = require("./models/trainingProgram")(sequelize, DataTypes);
 
 const sync = (async () => {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ alter: true });
     console.log('All models were synchronized successfully');
 });
 

@@ -22,5 +22,7 @@ module.exports = (sequelize, DataTypes ) => {
 
         },
     );
-    return Exercise;
+
+    console.log(trainingProgram === sequelize.models.trainingProgram);
+    return trainingProgram;
 }

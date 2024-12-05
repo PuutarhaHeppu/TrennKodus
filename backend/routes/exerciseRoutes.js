@@ -1,4 +1,4 @@
-const ExerciseController = require("../controllers/GamesController")
+const ExercisesController = require("../controllers/ExercisesController")
 module.exports = (app)=>{
     app.route("/exercises")
         .get(ExercisesController.getAll)

@@ -255,38 +255,7 @@
                                 "NewTrainingProgram": {
                                     "value": {
                                         "name": "some text",
-                                        "Exercises": [
-                                            {
-                                                "id": 1,
-                                                "name": "some text",
-                                                "repetisions": 54,
-                                                "Sets": 93
-                                            },
-                                            {
-                                                "id": 2,
-                                                "name": "some text",
-                                                "repetisions": 54,
-                                                "Sets": 93
-                                            },
-                                            {
-                                                "id": 3,
-                                                "name": "some text",
-                                                "repetisions": 54,
-                                                "Sets": 93
-                                            },
-                                            {
-                                                "id": 4,
-                                                "name": "some text",
-                                                "repetisions": 54,
-                                                "Sets": 93
-                                            },
-                                            {
-                                                "id": 5,
-                                                "name": "some text",
-                                                "repetisions": 54,
-                                                "Sets": 93
-                                            }
-                                        ]
+                                        "description": "some text"
                                     }
                                 }
                             }

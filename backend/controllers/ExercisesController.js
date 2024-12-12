@@ -3,8 +3,8 @@ const Utils = require ("./utils");
 
 exports.getAll = async (req, res) => {
     const exercises = await db.exercises.findAll();
-    res.send(exercises.map(({id, name})=> { 
-        return {id, name}
+    res.send(exercises.map(({id, name, description, muscleGroup})=> { 
+        return {id, name, description, muscleGroup}
     }))
 }
 
@@ -23,30 +23,30 @@ exports.create = async (req, res) => {
         .send(createdExercise)
 }
 exports.deleteById = async (req, res) => {
-    const exercise = await getExercise(req, res)
-    if (!exercise) { return }
-    await exercise.destroy();
+    const Exercise = await getExercise(req, res)
+    if (!Exercise) { return }
+    await Exercise.destroy();
     return res.status(204).send()
 };
 
 exports.getById = async (req, res) => {
-    const exercise = await getExercise(req, res)
-    if (!exercise) { return }
-    return res.send(exercise)
+    const Exercise = await getExercise(req, res)
+    if (!Exercise) { return }
+    return res.send(Exercise)
 };
 exports.editById = async (req, res) => {
-    const exercise = await getExercise(req, res)
-    if (!exercise) { return }
+    const Exercise = await getExercise(req, res)
+    if (!Exercise) { return }
     if (!req.body.name || req.body.name.trim().length === 0) {
         return res.status(400).send({ error: "Missing required field 'name'" })
     }
-    exercise.name = req.body.name
-    exercise.description = req.body.description,
-    exercise.muscleGroup = req.body.muscleGroup
-    await exercise.save();
+    Exercise.name = req.body.name
+    Exercise.description = req.body.description,
+    Exercise.muscleGroup = req.body.muscleGroup
+    await Exercise.save();
     return res
-        .location(`${Utils.getBaseUrl(req)}/exercises/${exercise.id}`)
-        .send(exercise)
+        .location(`${Utils.getBaseUrl(req)}/exercises/${Exercise.id}`)
+        .send(Exercise)
 };
 
 const getExercise = async (req, res) => {
@@ -55,10 +55,10 @@ const getExercise = async (req, res) => {
         res.status(400).send({ error: `ID must be a whole number: ${req.params.id}` })
         return null
     }
-    const exercise = await db.exercises.findByPk(idNumber)
-    if (!exercise) {
+    const Exercise = await db.exercises.findByPk(idNumber)
+    if (!Exercise) {
         res.status(404).send({ error: `Exercise not found` })
         return null
     }
-    return exercise
+    return Exercise
 }

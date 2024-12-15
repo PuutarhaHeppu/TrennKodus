@@ -10,7 +10,13 @@ export default {
       allExercises: [],
       showForm: false,
       showFormForEdit: false,
+      selectedExercise: null,
       newExercise: {
+        name: "",
+        description: "",
+        muscleGroup: ""
+      },
+      updateExercise: {
         name: "",
         description: "",
         muscleGroup: ""
@@ -21,8 +27,6 @@ export default {
     this.fetchExercises();
   },
   methods: {
-
-
     async fetchExercises() {
       try {
         const response = await fetch('http://localhost:8080/exercises');
@@ -79,61 +83,62 @@ export default {
       }
     },
 
-    async editById() {
-    const Exercise = await getExercise(req, res)
-    if (!Exercise) { return }
-    if (!req.body.name || req.body.name.trim().length === 0) {
-        return res.status(400).send({ error: "Missing required field 'name'" })
-    }
-    Exercise.name = req.body.name
-    Exercise.description = req.body.description,
-    Exercise.muscleGroup = req.body.muscleGroup
-    await Exercise.save();
-    return res
-        .location(`${Utils.getBaseUrl(req)}/exercises/${Exercise.id}`)
-        .send(Exercise)
-  },
-  /*
-    async editExercise(ExerciseId, Exercise) {
-      if (!this.newExercise.name || !this.newExercise.description || !this.newExercise.muscleGroup) {
-        alert('Harjutuse nimi on kohustuslik!');
+    startEditing(exercise) {
+      if (!exercise) {
+        console.error('No exercise provided to edit');
         return;
       }
+      this.selectedExercise = exercise;
+      this.updateExercise = {
+        name: exercise.name,
+        description: exercise.description,
+        muscleGroup: exercise.muscleGroup
+      };
+      this.showFormForEdit = true;
+    },
+
+  async editExercise() {
+    if (!this.selectedExercise) {
+      alert('Error: Exercise not found!');
+      return;
+    }
+
+    if (!this.updateExercise.name || !this.updateExercise.description || !this.updateExercise.muscleGroup) {
+      alert('Please fill in all fields!');
+      return;
+    }
 
     try {
-      const response = await fetch(`http://localhost:8080/exercises/${ExerciseId}`, {
+      const response = await fetch(`http://localhost:8080/exercises/${this.selectedExercise.id}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name: this.Exercise.name,
-          description: this.Exercise.description,
-          muscleGroup: this.Exercise.muscleGroup
+          name: this.updateExercise.name,
+          description: this.updateExercise.description,
+          muscleGroup: this.updateExercise.muscleGroup
         })
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Viga harjutuse uuendamisel');
+        throw new Error('Error updating exercise');
       }
 
-      const updatedExercise = await response.json();
-      console.log('Harjutus edukalt uuendatud:', updatedExercise);
-      
+      await this.fetchExercises();
       this.showFormForEdit = false;
-      this.newExercise = {
+      
+      this.updateExercise = {
         name: "",
         description: "",
         muscleGroup: ""
       };
-      await this.fetchExercises();
+      this.selectedExercise = null;
     } catch (error) {
-      console.error('Viga harjutuse uuendamisel:', error);
-      alert(error.message);
+      console.error('Error updating exercise:', error);
+      alert('Error updating exercise: ' + error.message);
     }
-  },  */
+  },
 
     async deleteExercise(ExerciseId) {
       try {
@@ -150,7 +155,7 @@ export default {
         console.error('Error deleting exercise:', error);
       }
     }
-  },
+  }
 }
 </script>
 
@@ -188,22 +193,19 @@ export default {
     <div class="form-content">
       <h3>Edit Exercise</h3>
       <input 
-        v-model="newExercise.name" 
-        placeholder="Exercise Name *" 
+        v-model="updateExercise.name" 
         required
       >
       <input 
-        v-model="newExercise.description" 
-        placeholder="Description *"
+        v-model="updateExercise.description" 
         required
       >
       <input 
-        v-model="newExercise.muscleGroup" 
-        placeholder="Muscle Group *" 
+        v-model="updateExercise.muscleGroup" 
         required
       >
       <div class="button-group">
-        <button @click="editExercise(newExercise.id)" class="submitButton">Update</button>
+        <button @click="editExercise" class="submitButton">Update</button>
         <button @click="showFormForEdit = false" class="cancelButton">Cancel</button>
       </div>
     </div>
@@ -211,7 +213,7 @@ export default {
 
     <ExercisesTable 
       :items="allExercises"
-      @edit="editById"
+      @edit="startEditing"
       @delete="deleteExercise"
     />
   </main>
@@ -247,6 +249,20 @@ input {
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
+}
+
+.submitButton {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.cancelButton {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #ff4444;
+  color: white;
 }
 
 input[required] {

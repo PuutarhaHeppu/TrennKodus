@@ -15,7 +15,7 @@
             <td>{{ exercise.description }}</td>
             <td>{{ exercise.muscleGroup }}</td>
             <td class="actions">
-              <button @click="$emit('edit', exercise.id)" class="editButton">Edit</button>
+              <button @click="$emit('edit', exercise)" class="editButton">Edit</button>
               <button @click="$emit('delete', exercise.id)" class="deleteButton">Delete</button>
             </td>
           </tr>

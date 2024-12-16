@@ -36,17 +36,19 @@ exports.getById = async (req, res) => {
 };
 
 exports.editById = async (req, res) => {
-    const trainingProgram = await getTrainingProgram(req, res)
-    if (!trainingProgram) { return }
+    const TrainingProgram = await getTrainingProgram(req, res)
+    if (!TrainingProgram) { return }
     if (!req.body.name || req.body.name.trim().length === 0) {
-        return res.status(400).send({error: "Missing required field 'name'"})
+        return res.status(400).send({ error: "Missing required field 'name'" })
     }
-    trainingProgram.name = req.body.name
-    await trainingProgram.save();
+    TrainingProgram.name = req.body.name
+    TrainingProgram.description = req.body.description,
+    await TrainingProgram.save();
     return res
-        .location(`${Utils.getBaseUrl(req)}/trainingPrograms/${trainingProgram.id}`)
-        .send(trainingProgram)
+        .location(`${Utils.getBaseUrl(req)}/trainingPrograms/${TrainingProgram.id}`)
+        .send(TrainingProgram)
 };
+
 
 const getTrainingProgram = async (req, res) => {
     const idNumber = parseInt(req.params.id)
@@ -54,7 +56,7 @@ const getTrainingProgram = async (req, res) => {
         res.status(400).send({error: `ID must be a whole number: ${req.params.id}`})
         return null
     }
-    const trainingProgram = await db.trainingPrograms.findByPk(idNumber)
+    const trainingProgram = await db.trainingProgram.findByPk(idNumber)
     if (!trainingProgram) {
         res.status(404).send({error: `Training program Not Found!`})
         return null

@@ -6,7 +6,11 @@ Läbi API saab kasutaja treeningkava just selle lihasgrupi jaoks millele on tal 
 # How to run program
 to run the project you need to have node.js downloaded
 1. download zip file and extract everything or clone project
-3. open node.js command promt
-4. navigate to backend
-5. type in 'npm i'
-6. then type 'node .' then copy the address and paste it in the browser search bar
+2. open node.js command promt
+3. navigate to backend
+4. type in 'npm i'
+5. then type 'node .' to run the backend
+6. open another node.js command promt
+7. navigate to frontend
+8. type in 'npm i' and then 'npm run dev'
+9. then copy the link it gives you 

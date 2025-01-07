@@ -24,7 +24,7 @@
                                             "id": 2,
                                             "name": "some text",
                                             "description": "some text",
-                                            "MuscleGroup": "some text"
+                                            "muscleGroup": "some text"
                                         }
                                     }
                                 }
@@ -47,7 +47,7 @@
                                     "value": {
                                         "name": "some text",
                                         "description": "some text",
-                                        "MuscleGroup": "some text"
+                                        "muscleGroup": "some text"
                                     }
                                 }
                             }
@@ -102,7 +102,7 @@
                                             "id": 1,
                                             "name": "push-up",
                                             "description": "some text",
-                                            "MuscleGroup": "some text"
+                                            "muscleGroup": "some text"
                                         }
                                     }
                                 }
@@ -464,7 +464,7 @@
                         "description": "",
                         "type": "string"
                     },
-                    "MuscleGroup": {
+                    "muscleGroup": {
                         "description": "",
                         "type": "string"
                     }
@@ -473,7 +473,7 @@
                     "id": 9,
                     "name": "some text",
                     "description": "some text",
-                    "MuscleGroup": "some text"
+                    "muscleGroup": "some text"
                 }
             },
             "NewExercise": {
@@ -481,7 +481,7 @@
                 "required": [
                     "name",
                     "description",
-                    "MuscleGroup"
+                    "muscleGroup"
                 ],
                 "type": "object",
                 "properties": {
@@ -493,7 +493,7 @@
                         "description": "",
                         "type": "string"
                     },
-                    "MuscleGroup": {
+                    "muscleGroup": {
                         "description": "",
                         "type": "string"
                     }
